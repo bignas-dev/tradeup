@@ -1,10 +1,13 @@
-.PHONY: run cloc fmt
+.PHONY: run lint cloc
 
 run:
 	go run .
 
-fmt:
+lint:
 	go fmt ./...
+	go test ./...
+	go vet ./...
+	go fix ./...
 
 cloc:
 	cloc . --vcs git
