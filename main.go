@@ -19,11 +19,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(data)
+	fmt.Printf("%#v\n", data)
 
 	data2, err := properties.GetProperties()
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(data2)
+	fmt.Printf("%#v\n", data2)
 }
