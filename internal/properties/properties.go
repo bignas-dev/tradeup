@@ -1,6 +1,8 @@
 // Package properties models skin, wear, rarity and collection metadata, and syncs it to the database.
 package properties
 
+import "strings"
+
 type (
 	SkinName string
 	SkinType string
@@ -29,14 +31,14 @@ type RarityNumberType int
 type RarityStringType string
 
 const (
-	InvalidRarity = RarityStringType("error rarity")
-	ConsumerGrade = RarityStringType("Consumer Grade")
+	InvalidRarity   = RarityStringType("error rarity")
+	ConsumerGrade   = RarityStringType("Consumer Grade")
 	IndustrialGrade = RarityStringType("Industrial Grade")
-	MilSpecGrade = RarityStringType("Mil-Spec Grade")
-	Restricted = RarityStringType("Restricted")
-	Classified = RarityStringType("Classified")
-	Covert = RarityStringType("Covert")
-	Extraordinary = RarityStringType("Extraordinary")
+	MilSpecGrade    = RarityStringType("Mil-Spec Grade")
+	Restricted      = RarityStringType("Restricted")
+	Classified      = RarityStringType("Classified")
+	Covert          = RarityStringType("Covert")
+	Extraordinary   = RarityStringType("Extraordinary")
 )
 
 var Rarities = []RarityStringType{
@@ -50,3 +52,28 @@ var Rarities = []RarityStringType{
 	Extraordinary,
 }
 
+type WearData struct {
+	Name     WearType
+	MinFloat FloatType
+	MaxFloat FloatType
+}
+
+const InvalidWear = WearType("error wear")
+
+var Wears = []WearData{
+	{InvalidWear, -9999, -999},
+	{"Factory New", 0.00, 0.07},
+	{"Minimal Wear", 0.07, 0.15},
+	{"Field-Tested", 0.15, 0.38},
+	{"Well-Worn", 0.38, 0.45},
+	{"Battle-Scarred", 0.45, 1.00},
+}
+
+func ExtractWearFromMarketName(n string) (WearType, error) {
+	for _, w := range Wears {
+		if strings.Contains(n, string(w.Name)) {
+			return w.Name, nil
+		}
+	}
+	return "", nil
+}
