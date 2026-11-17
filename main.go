@@ -6,6 +6,7 @@ import (
 
 	"tradeup/internal/currencies"
 	"tradeup/internal/images"
+	"tradeup/internal/properties"
 )
 
 func main() {
@@ -19,4 +20,10 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(data)
+
+	data2, err := properties.GetProperties()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(data2)
 }
