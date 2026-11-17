@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"tradeup/internal/currencies"
 	"tradeup/internal/images"
 )
 
@@ -12,4 +13,10 @@ func main() {
 	if err := images.SaveImages(); err != nil {
 		log.Fatal(err)
 	}
+
+	data, err := currencies.GetCurrencies()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(data)
 }
