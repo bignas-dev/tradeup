@@ -100,7 +100,7 @@ func downloadRawImage(imgURL, imgPath string) error {
 	if err != nil {
 		return fmt.Errorf("downloading %q: %w", imgURL, err)
 	}
-	defer func() { _ = resp.Body.Close() }()
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("URL %v status code: %v", imgURL, resp.StatusCode)
@@ -123,7 +123,7 @@ func downloadRawImage(imgURL, imgPath string) error {
 	if err != nil {
 		return fmt.Errorf("creating file: %w", err)
 	}
-	defer func() { _ = file.Close() }()
+	defer file.Close()
 
 	_, err = io.Copy(file, resp.Body)
 	if err != nil {
