@@ -1,4 +1,4 @@
-.PHONY: run
+.PHONY: run cloc
 
 run:
 	go run .
