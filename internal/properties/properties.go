@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+
+	"tradeup/internal/nameformatter"
 )
 
 type (
@@ -118,14 +120,6 @@ type FilterValue struct {
 }
 
 const skinsURL = "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json"
-
-var replacer = strings.NewReplacer(
-	"The ", "",
-	" Collection", "",
-	" Case", "",
-	"Operation ", "",
-	" Weapon", "",
-)
 
 type rarity struct {
 	Name string `json:"name"`
@@ -240,10 +234,11 @@ func getCollections(args ...[]origin) []string {
 	seen := make(map[string]struct{})
 	for _, group := range args {
 		for _, col := range group {
-			cleanCol := replacer.Replace(col.Name)
-			if cleanCol == "Limited Edition Item" {
+			cleanCol := nameformatter.FormatCollectionString(col.Name)
+			if cleanCol == "" {
 				continue
 			}
+
 			seen[cleanCol] = struct{}{}
 		}
 		if len(seen) != 0 {

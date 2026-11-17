@@ -12,5 +12,8 @@ var collectionReplacer = strings.NewReplacer(
 )
 
 func FormatCollectionString(collection string) string {
+	if collection == "Limited Edition Item" {
+		return ""
+	}
 	return collectionReplacer.Replace(collection)
 }
