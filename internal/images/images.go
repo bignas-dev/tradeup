@@ -13,8 +13,10 @@ import (
 )
 
 const (
-	skinsURL             = "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json"
-	skinImagesFolderPath = "./.tmp/skins"
+	skinsURL               = "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json"
+	skinImagesFolderPath   = "./.tmp/skins"
+	collectionsURL         = "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/collections.json"
+	collectionImagesFolder = "./.tmp/collections"
 )
 
 var supportedImageExtensions = []string{"png", "svg"}
@@ -31,7 +33,15 @@ func SaveImages() error {
 		return fmt.Errorf("images: failed to make dir: %w", err)
 	}
 
+	if err := os.MkdirAll(collectionImagesFolder, 0o755); err != nil {
+		return fmt.Errorf("images: failed to make dir: %w", err)
+	}
+
 	if err := getImagesFromURL(skinImagesFolderPath, skinsURL); err != nil {
+		return err
+	}
+
+	if err := getImagesFromURL(collectionImagesFolder, collectionsURL); err != nil {
 		return err
 	}
 
