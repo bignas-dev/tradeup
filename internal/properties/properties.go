@@ -209,18 +209,30 @@ func GetProperties() (Map, error) {
 				}
 
 				properties[SkinName(name)] = Property{
-					Name:        SkinName(name),
-					Collection:  Collection(col),
-					Rarity:      skin.Rarity.Name,
-					MinFloat:    skin.MinFloat,
-					MaxFloat:    skin.MinFloat,
-					RarityNum:   rarNum,
-					Tradeupable: false,
-					Stattrak:    skin.Stattrak,
+					Name:       SkinName(name),
+					Collection: Collection(col),
+					Rarity:     skin.Rarity.Name,
+					MinFloat:   skin.MinFloat,
+					MaxFloat:   skin.MinFloat,
+					RarityNum:  rarNum,
+					Stattrak:   skin.Stattrak,
 				}
 			}
 		}
 	}
+
+	collectionMaxRarity := make(map[Collection]int)
+	for _, p := range properties {
+		if p.RarityNum > collectionMaxRarity[p.Collection] {
+			collectionMaxRarity[p.Collection] = p.RarityNum
+		}
+	}
+
+	for n, p := range properties {
+		p.Tradeupable = p.RarityNum < collectionMaxRarity[p.Collection]
+		properties[n] = p
+	}
+
 	return properties, nil
 }
 
@@ -245,17 +257,4 @@ func getCollections(args ...[]origin) []string {
 	}
 
 	return result
-}
-
-// GetWearName returns the wear-condition name for a float value.
-func GetWearName(f float64) string {
-	if f < 0 {
-		return string(Wears[1].Name)
-	}
-	for i := 1; i < len(Wears); i++ {
-		if f < float64(Wears[i].MaxFloat) {
-			return string(Wears[i].Name)
-		}
-	}
-	return string(Wears[len(Wears)-1].Name)
 }
