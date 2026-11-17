@@ -77,3 +77,23 @@ func ExtractWearFromMarketName(n string) (WearType, error) {
 	}
 	return "", nil
 }
+
+type Collection string
+
+type Property struct {
+	Name        SkinName
+	Collection  Collection
+	Rarity      string
+	RarityNum   int
+	Tradeupable bool
+	Stattrak    bool
+	MinFloat    float64
+	MaxFloat    float64
+}
+
+type Map map[SkinName]Property
+
+var (
+	dopplerPhases      = []string{"Phase 1", "Phase 2", "Phase 3", "Phase 4", "Black Pearl", "Saphire", "Ruby"}
+	gammaDopplerPhases = []string{"Phase 1", "Phase 2", "Phase 3", "Phase 4", "Emerald"}
+)
