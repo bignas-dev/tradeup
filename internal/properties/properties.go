@@ -213,7 +213,7 @@ func GetProperties() (Map, error) {
 					Collection: Collection(col),
 					Rarity:     skin.Rarity.Name,
 					MinFloat:   skin.MinFloat,
-					MaxFloat:   skin.MinFloat,
+					MaxFloat:   skin.MaxFloat,
 					RarityNum:  rarNum,
 					Stattrak:   skin.Stattrak,
 				}
